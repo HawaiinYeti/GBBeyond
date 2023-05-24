@@ -12,7 +12,8 @@ gem "rails", "~> 7.0.4"
 gem "sprockets-rails"
 
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.5"
+# gem "pg", "~> 1.5"
+gem "sqlite3"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 6.1"
@@ -78,3 +79,6 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem 'sass-rails'
+gem 'activeadmin'

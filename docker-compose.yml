@@ -10,31 +10,15 @@ services:
     env_file:
       - .env
     environment:
-      - HISTFILE=/usr/src/app/log/.bash_history 
+      - HISTFILE=/usr/src/app/log/.bash_history
     depends_on:
-      db:
-        condition: service_healthy
       redis:
         condition: service_started
-  db:
-    image: postgres:15
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=changeme
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    healthcheck:
-      test: pg_isready -U postgres
-      interval: 2s
-      timeout: 5s
-      retries: 30
   redis:
     image: redis
     volumes:
       - redis_data:/data
 
 volumes:
-  pg_data:
   redis_data:
   bundle:

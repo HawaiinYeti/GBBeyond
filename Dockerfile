@@ -17,14 +17,13 @@ RUN --mount=type=cache,target=/var/cache/apt \
     less \
     git \
     libpq-dev \
-    postgresql-client \
     libvips \
     curl
 
 ENV LANG=C.UTF-8 \
   BUNDLE_JOBS=4 \
   BUNDLE_RETRY=3
-  
+
 RUN gem update --system && gem install bundler
 
 WORKDIR /usr/src/app
