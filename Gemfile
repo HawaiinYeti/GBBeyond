@@ -82,3 +82,6 @@ end
 
 gem 'sass-rails'
 gem 'activeadmin'
+gem 'json_logic'
+gem 'httparty'
+gem 'rails-settings-cached'
