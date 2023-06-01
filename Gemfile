@@ -85,3 +85,4 @@ gem 'activeadmin'
 gem 'json_logic'
 gem 'httparty'
 gem 'rails-settings-cached'
+gem "sucker_punch", "~> 3.1"

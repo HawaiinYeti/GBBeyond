@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_25_015820) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_01_000205) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -49,13 +49,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_015820) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "channels", force: :cascade do |t|
-    t.string "name"
+  create_table "channel_queue_items", force: :cascade do |t|
+    t.integer "video_id"
+    t.integer "channel_id"
+    t.datetime "start_time", precision: nil
+    t.datetime "finish_time", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "known_videos", force: :cascade do |t|
+  create_table "channels", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -68,11 +72,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_25_015820) do
     t.index ["var"], name: "index_settings_on_var", unique: true
   end
 
-  create_table "videos", force: :cascade do |t|
+  create_table "shows", force: :cascade do |t|
+    t.integer "api_id"
     t.string "title"
-    t.string "url"
-    t.integer "playcount"
-    t.text "description"
+    t.json "image_urls", default: {}
+    t.json "logo_urls", default: {}
+    t.string "site_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "videos", force: :cascade do |t|
+    t.integer "api_id"
+    t.integer "api_guid"
+    t.string "name"
+    t.text "deck"
+    t.json "image_urls", default: {}
+    t.integer "show_id"
+    t.json "video_urls", default: {}
+    t.integer "category_id"
+    t.string "site_url"
+    t.string "youtube_id"
+    t.integer "length"
+    t.boolean "premium"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

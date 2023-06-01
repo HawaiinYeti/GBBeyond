@@ -321,6 +321,8 @@ GEM
     sqlite3 (1.6.3-x86_64-linux)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    sucker_punch (3.1.0)
+      concurrent-ruby (~> 1.0)
     thor (1.2.2)
     tilt (2.1.0)
     timeout (0.3.2)
@@ -381,6 +383,7 @@ DEPENDENCIES
   sprockets-rails
   sqlite3
   stimulus-rails
+  sucker_punch (~> 3.1)
   turbo-rails
   tzinfo-data
   web-console

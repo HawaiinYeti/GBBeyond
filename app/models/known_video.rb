@@ -1,2 +1,0 @@
-class KnownVideo < ApplicationRecord
-end
