@@ -1,2 +1,2 @@
-web: bin/rails server -p 3000
-css: bin/rails dartsass:watch
+web: bundle exec rails server -p 3000
+webpacker: ./bin/webpacker-dev-server

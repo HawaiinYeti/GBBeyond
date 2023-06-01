@@ -5,3 +5,4 @@ import "trix"
 import "@rails/actiontext"
 
 console.log('Hello World from application.js');
+import "channels"

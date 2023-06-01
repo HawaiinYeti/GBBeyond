@@ -60,6 +60,7 @@ group :development, :test do
   gem "debug", "1.8.0", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
   gem "rubocop-rspec"
+  gem 'foreman'
 end
 
 group :development do
@@ -86,3 +87,4 @@ gem 'json_logic'
 gem 'httparty'
 gem 'rails-settings-cached'
 gem "sucker_punch", "~> 3.1"
+gem "shakapacker", "~> 6.6"

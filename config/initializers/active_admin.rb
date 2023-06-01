@@ -333,3 +333,19 @@ ActiveAdmin.setup do |config|
   #
   # config.use_webpacker = true
 end
+
+module AdminPageLayoutOverride
+  def build_page(*args)
+    within super do
+      # render "layouts/environment"
+    end
+  end
+
+  def build_active_admin_head
+    within super do
+      render "layouts/custom_head"
+    end
+  end
+end
+
+ActiveAdmin::Views::Pages::Base.send :prepend, AdminPageLayoutOverride
