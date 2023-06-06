@@ -24,22 +24,15 @@ class VideoSyncJob
           youtube_id: video[:youtube_id],
           length: video[:length_seconds],
           premium: video[:premium]
+          video_urls: {
+            'hd' => video[:hd_url]
+            'low' => video[:low_url],
+            'high' => video[:high_url]
+          }
         }
 
         persisted_video = Video.find_or_initialize_by(api_id: atts[:api_id])
         persisted_video.update(atts)
-        check_video_urls(video, persisted_video)
-        persisted_video.save
-
-        if video[:video_show].present?
-          show_atts = {
-            api_id: video[:video_show][:id],
-            title: video[:video_show][:title],
-            image_urls: video[:video_show][:image],
-            logo_urls: video[:video_show][:logo]
-          }
-          Show.find_or_initialize_by(api_id: show_atts[:api_id]).update(show_atts)
-        end
         sleep(0.25)
       end
 
@@ -47,19 +40,4 @@ class VideoSyncJob
     end
   end
 
-  def check_video_urls(video, persisted_video)
-    provided_urls = [
-      ('hd' if video[:hd_url].present?),
-      ('low' if video[:low_url].present?),
-      ('high' if video[:high_url].present?),
-    ].compact
-
-    provided_urls.each do |qual|
-      next if persisted_video.video_urls[qual].to_s[0..35] ==
-              'https://videos-cloudfront.jwpsrv.com'
-
-      persisted_video.video_urls[qual] =
-        HTTParty.head(video["#{qual}_url".to_sym]).request.last_uri.to_s
-    end
-  end
 end

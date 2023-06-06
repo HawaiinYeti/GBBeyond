@@ -21,4 +21,16 @@ class Channel < ApplicationRecord
         finish_time: start_time + video.length.seconds
     ).save
   end
+
+  def self.channel_listing
+    all.map do |channel|
+      video = channel.current_queue_item.video
+      {
+        name: channel.name,
+        current_queue_item: channel.current_queue_item,
+        current_video: video,
+        url: video.get_url
+      }
+    end
+  end
 end
