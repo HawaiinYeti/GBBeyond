@@ -23,7 +23,7 @@ class Video < ApplicationRecord
     end
 
     if url.start_with?('https://video.giantbomb.com')
-      url += "?api_key=#{ENV['GIANTBOMB_API_KEY']}"
+      url += "?api_key=#{Setting.gb_api_key}"
     end
 
     url
