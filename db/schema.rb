@@ -95,6 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_01_000205) do
     t.string "youtube_id"
     t.integer "length"
     t.boolean "premium"
+    t.datetime "publish_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

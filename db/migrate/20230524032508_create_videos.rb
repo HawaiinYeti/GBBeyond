@@ -14,6 +14,7 @@ class CreateVideos < ActiveRecord::Migration[7.0]
       t.string :youtube_id
       t.integer :length
       t.boolean :premium
+      t.datetime :publish_date
 
       t.timestamps
     end
