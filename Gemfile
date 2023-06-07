@@ -88,3 +88,5 @@ gem 'httparty'
 gem 'rails-settings-cached'
 gem "sucker_punch", "~> 3.1"
 gem "shakapacker", "~> 6.6"
+
+gem "rufus-scheduler", "~> 3.9"

@@ -107,11 +107,16 @@ GEM
       reline (>= 0.3.1)
     diff-lcs (1.5.0)
     erubi (1.12.0)
+    et-orbi (1.2.7)
+      tzinfo
     ffi (1.15.5)
     foreman (0.87.2)
     formtastic (4.0.0)
       actionpack (>= 5.2.0)
     formtastic_i18n (0.7.0)
+    fugit (1.8.1)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
     has_scope (0.8.1)
@@ -197,6 +202,7 @@ GEM
     public_suffix (5.0.1)
     puma (6.2.2)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.6.2)
     rack (2.2.7)
     rack-mini-profiler (3.1.0)
@@ -297,6 +303,8 @@ GEM
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
+    rufus-scheduler (3.9.0)
+      fugit (~> 1.1, >= 1.1.6)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -388,6 +396,7 @@ DEPENDENCIES
   rspec-rails
   rubocop-rails
   rubocop-rspec
+  rufus-scheduler (~> 3.9)
   sass-rails
   selenium-webdriver
   shakapacker (~> 6.6)
