@@ -10,7 +10,6 @@ module Api
       resp = HTTParty.get("https://www.giantbomb.com/api/#{end_point}", query: @query)
 
       @uri = resp.request.last_uri.to_s
-      puts @uri
       @last_resp = resp.parsed_response['response'].deep_symbolize_keys
       return @last_resp
     end
