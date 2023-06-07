@@ -10,6 +10,7 @@ class Setting < RailsSettings::Base
   # field :omniauth_google_client_id, default: (ENV["OMNIAUTH_GOOGLE_CLIENT_ID"] || ""), type: :string, readonly: true
   # field :omniauth_google_client_secret, default: (ENV["OMNIAUTH_GOOGLE_CLIENT_SECRET"] || ""), type: :string, readonly: true
 
-  field :gb_api_key, type: :string, default: 'test'
-  field :premium, type: :boolean, default: false
+  field :gb_api_key, type: :string, default: ''
+  field :premium, type: :boolean, default: true
+  field :play_jwplayer, type: :boolean, default: false
 end
