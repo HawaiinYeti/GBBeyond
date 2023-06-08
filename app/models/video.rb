@@ -3,7 +3,7 @@ class Video < ApplicationRecord
   scope :random, -> { order('RANDOM()') }
 
   def get_url(quality = nil)
-    if !(video_urls['hd'] || video_urls['high'] || video_urls['low']).start_with?('https://video.giantbomb.com')
+    if (video_urls['hd'] || video_urls['high'] || video_urls['low']).exclude?('giantbomb.com')
       update_urls
     end
 
@@ -22,7 +22,7 @@ class Video < ApplicationRecord
       url = video_urls['hd'] || video_urls['high'] || video_urls['low']
     end
 
-    if url.start_with?('https://video.giantbomb.com')
+    if url.include?('giantbomb.com')
       url += "?api_key=#{Setting.gb_api_key}"
     end
 

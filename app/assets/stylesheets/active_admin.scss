@@ -17,5 +17,40 @@
 //   .status_tag { background: #6090DB; }
 
 #video-player .panel_contents {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
+}
+#channel-listing-panel .channel {
+  min-height: 60px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#channel-listing-panel .channel:hover {
+  background-color: rgba(0, 0, 0, 0.40);
+}
+
+#channel-listing-panel .channel-thumbnail, .channel-thumbnail img {
+  float: left;
+  margin-right: 5px;
+  max-height: 45px;
+  max-width: 80px;
+}
+
+#channel-listing-panel .channel-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#channel-listing-panel .playing {
+  background-color: rgba(0, 0, 0, 0.20);
+}
+
+.video-js .vjs-duration, .vjs-time-divider, .video-js .vjs-current-time {
+  display: block !important;
+}
+
+.vjs-remaining-time {
+  display: none !important;
 }

@@ -14,7 +14,13 @@ class Channel < ApplicationRecord
   end
 
   def add_to_queue(video)
-    start_time = (channel_queue_items.last&.finish_time || Time.now) + 1.second
+    start_time = if (channel_queue_items.last.present? &&
+                     channel_queue_items.last.finish_time < 5.minutes.ago) ||
+                    channel_queue_items.size.zero?
+      Time.zone.now
+    else
+      channel_queue_items.last.finish_time
+    end
     channel_queue_items.new(
         video: video,
         start_time: start_time,
@@ -23,14 +29,13 @@ class Channel < ApplicationRecord
   end
 
   def self.channel_listing
-    all.map do |channel|
-      video = channel.current_queue_item.video
-      {
-        name: channel.name,
-        current_queue_item: channel.current_queue_item,
-        current_video: video,
-        url: video.get_url
-      }
-    end
+    all.group_by(&:id).transform_values { |x| x.first.broadcast_object }
+  end
+
+  def broadcast_object
+    {
+      channel: self,
+      queue: channel_queue_items.order(start_time: :asc).map(&:broadcast_object)
+    }
   end
 end

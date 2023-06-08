@@ -40,8 +40,13 @@ class VideoSyncJob < ApplicationJob
         persisted_video.update(atts)
       end
 
-      sleep(20)
-      videos = gb_client.next_page[:results][:video]
+      next_page = gb_client.next_page
+      videos = if next_page[:results].empty?
+        []
+      else
+        next_page[:results][:video]
+        sleep(20)
+      end
     end
   end
 

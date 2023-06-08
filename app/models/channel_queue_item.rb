@@ -5,12 +5,17 @@ class ChannelQueueItem < ApplicationRecord
   after_create :broadcast_to_player
 
   def broadcast_to_player
-    ActionCable.server.broadcast "all_channels", { message:
-      {
-        name: channel.name,
-        queue_item: self,
-        video: self.video
-      }
+    ActionCable.server.broadcast "all_channels", {
+      command: 'channel_update',
+      data: channel.broadcast_object
+    }
+  end
+
+  def broadcast_object
+    {
+      queue_item: self,
+      video: video,
+      url: video.get_url
     }
   end
 end
