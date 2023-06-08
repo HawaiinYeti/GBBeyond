@@ -18,20 +18,21 @@ $(window).on('load', function() {
           channels = data.data
           playChannel(Object.keys(channels)[0])
         } else if (data.command == 'channel_update') {
-          channels[Object.keys(data.data)[0]] = data.data
+          var key = Object.keys(data.data)[0]
+          channels[parseInt(key)] = data.data[key]
         }
       }
     });
 
-    var current_channel = {}
-    window.channels = []
+    window.current_channel = parseInt($('#channel-listing .channel').first().data('channel-id'))
+    window.channels = {}
 
     function playChannel(key) {
       var channel_el = $(`#channel-listing .channel[data-channel-id=${key}]`)
       channel_el.addClass('playing')
 
       player.src(buildUrl(channels[key].queue[0]))
-      current_channel = key
+      current_channel = parseInt(key)
     }
 
     function updateQueues() {
@@ -79,6 +80,25 @@ $(window).on('load', function() {
       updateQueues()
       playChannel(current_channel)
     })
+
+    $('video').on('error', function(e) {
+      if (e.target.error.code == 4) {
+        $.ajax({
+          url: '/player_error',
+          method: 'POST',
+          data: {
+            channel_id: current_channel,
+            video_id: channels[current_channel].queue[0].video.id,
+            queue_item_id: channels[current_channel].queue[0].queue_item.id
+          },
+          success: function(data) {
+            channels[current_channel] = data.data[current_channel]
+            playChannel(current_channel)
+          }
+        })
+      }
+    })
+
     $('#channel-listing .channel').on('click', function() {
       playChannel($(this).data('channel-id'))
       $('#channel-listing .channel').removeClass('playing')

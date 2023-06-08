@@ -7,7 +7,7 @@ class ChannelQueueItem < ApplicationRecord
   def broadcast_to_player
     ActionCable.server.broadcast "all_channels", {
       command: 'channel_update',
-      data: channel.broadcast_object
+      data: { channel.id => channel.broadcast_object }
     }
   end
 

@@ -2,7 +2,5 @@
 
 $(window).on('load', function() {
   $('#title_bar').hide()
-  $('body.dashboard.index').each(function() {
-    // console.log('test')
-  })
+  $('body').attr('data-turbo', 'false')
 })

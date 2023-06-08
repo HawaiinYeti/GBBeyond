@@ -47,4 +47,8 @@ class Video < ApplicationRecord
       save
     end
   end
+
+  def report_error
+    update(error_on_last_play: true, error_on_last_play_at: Time.zone.now)
+  end
 end

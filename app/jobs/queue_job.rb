@@ -10,7 +10,7 @@ class QueueJob < ApplicationJob
         if !Setting.play_jwplayer
           videos = videos.where.not("video_urls -> 'high' LIKE '%jwplayer%'")
         end
-        channel.add_to_queue(Video.random.first)
+        channel.add_to_queue(Video.random.where(length: 0..120).first)
       end
       channel.finished_queue_items.each(&:delete)
     end
