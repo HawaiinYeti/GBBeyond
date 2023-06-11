@@ -52,5 +52,6 @@ def settings
     'gb_api_key' => {name: 'Giant Bomb API Key', field_type: :text},
     'premium' => {name: 'Premium', field_type: :checkbox},
     'play_jwplayer' => {name: 'Play JW Player Videos', field_type: :checkbox},
+    'quality_play_order' => {name: 'Quality Play Order', field_type: :text},
   }
 end

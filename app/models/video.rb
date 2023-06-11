@@ -24,7 +24,8 @@ class Video < ApplicationRecord
         end
       end
     else
-      url = video_urls['hd'] || video_urls['high'] || video_urls['low']
+      qualities = Setting.quality_play_order.split(',')
+      url = qualities.map { |q| video_urls[q] }.compact.first
     end
 
     if url.include?('giantbomb.com')
