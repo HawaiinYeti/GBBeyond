@@ -44,6 +44,8 @@ $(window).on('load', function() {
       if (channels[key].queue.length > 0) {
         player.controlBar.progressControl.enable();
         player.src(buildUrl(channels[key].queue[0]))
+
+        updateWhatsPlaying(channels[key].queue[0])
       } else {
         player.pause()
       }
@@ -75,6 +77,16 @@ $(window).on('load', function() {
           channel_el.find('.channel-thumbnail img').attr('src', '')
         }
       })
+    }
+
+    function updateWhatsPlaying(queue_item) {
+      var video = queue_item.video
+      $('#current-video-panel #current-video-name h3').html(video.name)
+      $('#current-video-panel #current-video-deck p').html(video.deck)
+      $('#current-video-panel #current-video-thumbnail img').attr('src', video.image_urls.original_url)
+      $('#current-video-panel #current-video-publish-date span').html(moment(video.publish_date).format("YYYY-MM-DD"))
+      $('#current-video-panel #current-video-start-time span').html(moment(queue_item.queue_item.start_time).format("YYYY-MM-DD HH:mm:ss"))
+      $('#current-video-panel #current-video-finish-time span').html(moment(queue_item.queue_item.finish_time).format("YYYY-MM-DD HH:mm:ss"))
     }
 
     function buildUrl(data) {

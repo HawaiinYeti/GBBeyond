@@ -1,4 +1,5 @@
 //= require active_admin/base
+//= require moment
 
 $('#channel-video-filters .add_fields').off('click')
 $(window).on('load', function() {
