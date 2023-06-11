@@ -90,3 +90,4 @@ gem "sucker_punch", "~> 3.1"
 gem "shakapacker", "~> 6.6"
 
 gem "rufus-scheduler", "~> 3.9"
+gem "activeadmin_dark_color_scheme"
