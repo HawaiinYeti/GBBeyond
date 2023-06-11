@@ -205,8 +205,6 @@ GEM
     raabro (1.4.0)
     racc (1.6.2)
     rack (2.2.7)
-    rack-mini-profiler (3.1.0)
-      rack (>= 1.2.0)
     rack-proxy (0.7.6)
       rack
     rack-test (2.1.0)
@@ -389,7 +387,6 @@ DEPENDENCIES
   jbuilder
   json_logic
   puma (~> 6.1)
-  rack-mini-profiler
   rails (~> 7.0.4)
   rails-settings-cached
   redis (~> 5.0)

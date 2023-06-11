@@ -1,0 +1,29 @@
+<%= form_for resource do |f| %>
+<fieldset class="actions">
+  <ol>
+    <li class="action input_action " id="channel_submit_action">
+      <input type="submit" name="commit" value="Update Channel" data-disable-with="Update Channel">
+    </li>
+    <li class="cancel">
+      <a href="/channels">Cancel</a>
+    </li>
+  </ol>
+</fieldset>
+<fieldset class="inputs">
+  <ol>
+    <li class="string input optional stringish" id="channel_name_input">
+      <%= f.label :name, class: "label" %>
+      <%= f.text_field :name %>
+    </li>
+  </ol>
+</fieldset>
+<fieldset class="inputs" id="channel-video-filters">
+  <legend>
+    Video Rules
+  </legend>
+  <%= search_form_for(Video.ransack(resource.q)) do |ff| %>
+      <%= ff.grouping_fields { |g| render 'grouping_fields', f: g } %>
+      <%= button_to_add_fields(ff, :grouping) %>
+  <% end %>
+</fieldset>
+<% end %>

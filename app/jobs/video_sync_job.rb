@@ -1,11 +1,17 @@
 class VideoSyncJob < ApplicationJob
   include SuckerPunch::Job
 
-  def perform
+  def perform(start_date = nil)
     gb_client = Api::GB.new
 
+    start_date = if start_date.nil? && Video.all.size.zero?
+                  '2008-01-01'.to_date_time
+                 elsif start_date.nil? && Video.all.size.nonzero?
+                   Video.maximum(:publish_date).to_datetime - 1.day
+                 else
+                   start_date.to_datetime
+                 end
     field_list = 'id,guid,name,deck,image,video_show,low_url,high_url,hd_url,video_categories,site_detail_url,youtube_id,length_seconds,premium,publish_date'
-    start_date = (Video.maximum(:publish_date) || '2008-01-01').to_datetime - 1.day
     finish_date = Time.zone.now.to_datetime
     fields = {
       field_list: field_list,
@@ -36,16 +42,27 @@ class VideoSyncJob < ApplicationJob
           },
         }
 
-        persisted_video = Video.find_or_initialize_by(api_id: atts[:api_id])
-        persisted_video.update(atts)
+        Video.find_or_initialize_by(api_id: atts[:api_id]).update(atts)
+
+        if video[:video_show].present?
+          show_atts = {
+            api_id: video.dig(:video_show, :id),
+            title: video.dig(:video_show, :title),
+            image_urls: video.dig(:video_show, :image),
+            logo_urls: video.dig(:video_show, :logo),
+            site_url: video.dig(:video_show, :site_detail_url),
+          }
+
+          Show.find_or_initialize_by(api_id: show_atts[:api_id]).update(show_atts)
+        end
       end
 
       next_page = gb_client.next_page
       videos = if next_page[:results].empty?
         []
       else
-        next_page[:results][:video]
         sleep(20)
+        next_page[:results][:video]
       end
     end
   end

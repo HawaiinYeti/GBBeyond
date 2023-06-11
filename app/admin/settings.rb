@@ -1,4 +1,6 @@
 ActiveAdmin.register_page "Settings" do
+  menu priority: 5
+
   page_action :update, method: :post do
     model_params.keys.each do |key|
       next if model_params[key].nil?

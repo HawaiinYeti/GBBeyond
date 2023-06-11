@@ -1,18 +1,27 @@
 ActiveAdmin.register Video do
+  menu priority: 4
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :api_id, :api_guid, :name, :deck, :image_urls, :show_id, :video_urls, :category_id, :site_url, :youtube_id, :length, :premium, :publish_date, :error_on_last_play, :error_on_last_play_at
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:api_id, :api_guid, :name, :deck, :image_urls, :show_id, :video_urls, :category_id, :site_url, :youtube_id, :length, :premium, :publish_date, :error_on_last_play, :error_on_last_play_at]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-  
+  actions :all, except: [:new, :edit, :destroy]
+
+  index do
+    column 'ID', :id
+    column 'API ID', :api_id
+    column :name
+    column :deck
+    column :show
+    column 'Duration', sortable: :length do |video|
+      video.length_str
+    end
+    column :premium
+    column :publish_date
+    column :error_on_last_play
+    actions
+  end
+
+  filter :name
+  filter :show
+  filter :show
+  filter :publish_date
+  filter :error_on_last_play
+  filter :length, label: 'Length (seconds)'
 end

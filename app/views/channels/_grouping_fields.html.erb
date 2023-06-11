@@ -1,0 +1,16 @@
+<%= tag.fieldset class: 'inputs video-filters', 'data-object-name': f.object_name do %>
+  <%= tag.legend "Match #{f.combinator_select} conditions #{
+    button_to_remove_fields}", escape: false %>
+
+  <%= f.condition_fields do |c| %>
+    <%= render 'condition_fields', f: c %>
+  <% end %>
+
+  <%= button_to_add_fields(f, :condition) %>
+
+  <%= f.grouping_fields do |g| %>
+    <%= render 'grouping_fields', f: g %>
+  <% end %>
+
+  <%= button_to_nest_fields(:grouping) %>
+<% end %>

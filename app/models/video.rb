@@ -1,6 +1,11 @@
 class Video < ApplicationRecord
-  belongs_to :show, optional: true
+  belongs_to :show, optional: true, primary_key: 'api_id'
   scope :random, -> { order('RANDOM()') }
+
+  def self.ransackable_attributes(auth_object = nil)
+    super - %w[api_guid created_at updated_at image_urls video_urls site_url
+               youtube_id]
+  end
 
   def get_url(quality = nil)
     if (video_urls['hd'] || video_urls['high'] || video_urls['low']).exclude?('giantbomb.com')
@@ -50,5 +55,17 @@ class Video < ApplicationRecord
 
   def report_error
     update(error_on_last_play: true, error_on_last_play_at: Time.zone.now)
+  end
+
+  def length_str
+    days = length / (3600 * 24)
+    day_s = days > 1 ? 's' : ''
+    "#{days.to_s + " day#{day_s}, " if days.positive?}#{(length / 3600) % 24}:#{"%02d" % ((length / 60) % 60)}:#{"%02d" % (length % 60)}"
+  end
+
+  def self.length_str
+    days = sum(:length) / (3600 * 24)
+    day_s = days > 1 ? 's' : ''
+    "#{days.to_s + " day#{day_s}, " if days.positive?}#{(sum(:length) / 3600) % 24}:#{"%02d" % ((sum(:length) / 60) % 60)}:#{"%02d" % (sum(:length) % 60)}"
   end
 end

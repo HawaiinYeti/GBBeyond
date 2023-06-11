@@ -1,19 +1,52 @@
 ActiveAdmin.register Channel do
-  permit_params :name
+  menu priority: 2
+  filter :name
+  form partial: 'form'
 
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :name
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:name]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+  controller do
+    def model_params
+      params.require(:channel).permit(:name)
+    end
+
+    def update
+      channel = Channel.find(params[:id])
+      channel.update(model_params)
+      channel.update(q: params[:q])
+      redirect_to channels_path
+    end
+  end
+
+  index do
+    column :id
+    column :name
+    column 'Total Videos' do |channel|
+      channel.videos.size
+    end
+    column 'Total Duration' do |channel|
+      # convert to hours, formatted in hours:minues:seconds
+      channel.videos.length_str
+    end
+    actions
+  end
+
+  show do
+    default_main_content
+    panel "Videos" do
+      order = params[:order]&.gsub('_asc', ' asc')&.gsub('_desc', ' desc') || 'publish_date desc'
+      paginated_collection(channel.videos.eager_load(:show).page(params[:page]).per(50).order(order), download_links: false) do
+        table_for collection, sortable: true do |video|
+          column :name, sortable: :name
+          column :publish_date, sortable: :publish_date
+          column 'Length', sortable: :length do |video|
+            video.length_str
+          end
+          column 'Show' do |video|
+            video.show&.title
+          end
+
+        end
+      end
+    end
+  end
 
 end

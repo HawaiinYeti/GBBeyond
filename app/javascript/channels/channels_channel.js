@@ -1,8 +1,8 @@
 import consumer from "channels/consumer"
 
 $(window).on('load', function() {
-  $('#title_bar').hide()
   $('body.dashboard.index').each(function() {
+    $('#title_bar').hide()
     consumer.subscriptions.create("ChannelsChannel", {
       connected() {
         // Called when the subscription is ready for use on the server
@@ -79,6 +79,10 @@ $(window).on('load', function() {
     player.on('ended', function() {
       updateQueues()
       playChannel(current_channel)
+    })
+
+    player.on('contextmenu', function(e) {
+      e.preventDefault()
     })
 
     $('video').on('error', function(e) {

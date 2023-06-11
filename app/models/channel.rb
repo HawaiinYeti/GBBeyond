@@ -54,4 +54,12 @@ class Channel < ApplicationRecord
     channel_queue_items.find(queue_item_id)&.delete
     add_to_queue(Video.random.first, true)
   end
+
+  def get_random_video
+    Video.ransack(q).result.random.first
+  end
+
+  def videos
+    Video.ransack(q).result
+  end
 end
