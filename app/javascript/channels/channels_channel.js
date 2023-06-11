@@ -16,10 +16,18 @@ $(window).on('load', function() {
         // Called when there's incoming data on the websocket for this channel
         if (data.command == "initial_channel_listing") {
           channels = data.data
-          playChannel(Object.keys(channels)[0])
+
+          var first_key = Object.keys(channels)[0]
+          if (channels[first_key].queue.length > 0) {
+            playChannel(first_key)
+          }
         } else if (data.command == 'channel_update') {
-          var key = Object.keys(data.data)[0]
-          channels[parseInt(key)] = data.data[key]
+          var key = parseInt(Object.keys(data.data)[0])
+          channels[key] = data.data[key]
+          if (current_channel == key && (channels[key].queue.length == 0 || Date.parse(channels[key].queue[0].queue_item.finish_time) < Date.now())) {
+            playChannel(current_channel)
+          }
+          updateChannelListings()
         }
       }
     });
@@ -28,17 +36,23 @@ $(window).on('load', function() {
     window.channels = {}
 
     function playChannel(key) {
+      current_channel = parseInt(key)
       var channel_el = $(`#channel-listing .channel[data-channel-id=${key}]`)
+      $('#channel-listing .channel').removeClass('playing')
       channel_el.addClass('playing')
 
-      player.src(buildUrl(channels[key].queue[0]))
-      current_channel = parseInt(key)
+      if (channels[key].queue.length > 0) {
+        player.controlBar.progressControl.enable();
+        player.src(buildUrl(channels[key].queue[0]))
+      } else {
+        player.pause()
+      }
     }
 
     function updateQueues() {
       Object.entries(channels).forEach(entry => {
         const [id, channel] = entry;
-        if (Date.parse(channel.queue[0].queue_item.finish_time) < Date.now()) {
+        if (channel.queue[0] && Date.parse(channel.queue[0].queue_item.finish_time) < Date.now()) {
           channel.queue.shift()
           updateChannelListings()
         }
@@ -48,11 +62,17 @@ $(window).on('load', function() {
     function updateChannelListings() {
       Object.entries(channels).forEach(entry => {
         const [id, channel] = entry;
-        var channel_el = $(`#channel-listing .channel[data-channel-id=${id}]`)
-        var video = channel.queue[0].video
-        if (channel_el.find('.channel-video').html() != video.name) {
-          channel_el.find('.channel-video').html(video.name)
-          channel_el.find('.channel-thumbnail img').attr('src', video.image_urls.original_url)
+        if (channel.queue.length > 0) {
+          var channel_el = $(`#channel-listing .channel[data-channel-id=${id}]`)
+          var video = channel.queue[0].video
+          if (channel_el.find('.channel-video').html() != video.name) {
+            channel_el.find('.channel-video').html(video.name)
+            channel_el.find('.channel-thumbnail img').attr('src', video.image_urls.original_url)
+          }
+        } else {
+          var channel_el = $(`#channel-listing .channel[data-channel-id=${id}]`)
+          channel_el.find('.channel-video').html('')
+          channel_el.find('.channel-thumbnail img').attr('src', '')
         }
       })
     }
@@ -105,8 +125,6 @@ $(window).on('load', function() {
 
     $('#channel-listing .channel').on('click', function() {
       playChannel($(this).data('channel-id'))
-      $('#channel-listing .channel').removeClass('playing')
-      $(this).addClass('playing')
     })
 
     setInterval(function() {
