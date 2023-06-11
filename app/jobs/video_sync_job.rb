@@ -19,7 +19,7 @@ class VideoSyncJob < ApplicationJob
       sort: 'publish_date:asc'
     }
 
-    videos = gb_client.get('videos', fields)[:results][:video]
+    videos = [gb_client.get('videos', fields)[:results][:video]].flatten
     while videos.present?
       videos.each do |video|
         atts = {
@@ -33,7 +33,7 @@ class VideoSyncJob < ApplicationJob
           site_url: video[:site_detail_url],
           youtube_id: video[:youtube_id],
           length: video[:length_seconds],
-          premium: video[:premium],
+          premium: (video[:premium] || false),
           publish_date: video[:publish_date].in_time_zone,
           video_urls: {
             'hd' => video[:hd_url],
