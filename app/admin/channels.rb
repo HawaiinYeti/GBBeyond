@@ -3,6 +3,7 @@ ActiveAdmin.register Channel do
   filter :name
   form partial: 'form'
 
+
   controller do
     def model_params
       params.require(:channel).permit(:name)
@@ -16,7 +17,7 @@ ActiveAdmin.register Channel do
     end
   end
 
-  index do
+  index download_links: false do
     column :id
     column :name
     column 'Total Videos' do |channel|

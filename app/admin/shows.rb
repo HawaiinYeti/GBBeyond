@@ -2,7 +2,7 @@ ActiveAdmin.register Show do
   menu priority: 3
 
   filter :title
-  index do
+  index download_links: false do
     column :id
     column :title
     column :total_videos do |show|
