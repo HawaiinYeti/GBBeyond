@@ -6,7 +6,9 @@ class QueueJob < ApplicationJob
       if channel.channel_queue_items.size.zero? ||
          channel.current_queue_item.nil? ||
          channel.channel_queue_items.maximum(:finish_time) <= 5.minutes.since
-        videos = channel.videos.where(premium: [false, Setting.premium].uniq)
+        videos = channel.videos.
+                 where(premium: [false, Setting.premium].uniq).
+                 where.not(length: [nil, 0])
         if !Setting.play_jwplayer
           videos = videos.where.not("video_urls -> 'high' LIKE '%jwplayer%'")
         end
