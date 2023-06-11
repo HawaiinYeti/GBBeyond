@@ -15,6 +15,12 @@ ActiveAdmin.register Channel do
       channel.update(q: params[:q])
       redirect_to channels_path
     end
+
+    def create
+      channel = Channel.create(model_params)
+      channel.update(q: params[:q])
+      redirect_to channels_path
+    end
   end
 
   index download_links: false do
