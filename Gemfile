@@ -12,8 +12,8 @@ gem "rails", "~> 7.0.4"
 gem "sprockets-rails"
 
 # Use postgresql as the database for Active Record
-# gem "pg", "~> 1.5"
-gem "sqlite3"
+gem "pg", "~> 1.5"
+# gem "sqlite3"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 6.1"
@@ -49,11 +49,10 @@ gem "bootsnap", require: false
 # gem "sassc-rails", "~> 2.1"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem "image_processing", "~> 1.12"
+# gem "image_processing", "~> 1.12"
 
 gem "brakeman"
 gem "bundler-audit"
-gem "rubocop-rails"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -72,6 +71,7 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem "rubocop-rails"
 end
 
 group :test do
@@ -88,7 +88,6 @@ gem 'httparty'
 gem 'rails-settings-cached'
 gem "sucker_punch", "~> 3.1"
 gem "shakapacker", "~> 6.6"
-
 gem "rufus-scheduler", "~> 3.9"
 gem "activeadmin_dark_color_scheme"
 gem 'momentjs-rails'
