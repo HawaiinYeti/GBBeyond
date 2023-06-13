@@ -12,8 +12,23 @@ services:
     environment:
       - HISTFILE=/usr/src/app/log/.bash_history
     depends_on:
+      postgres:
+        condition: service_healthy
       redis:
         condition: service_started
+  postgres:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 2s
+      timeout: 5s
+      retries: 30
   redis:
     image: redis
     volumes:
@@ -22,3 +37,4 @@ services:
 volumes:
   redis_data:
   bundle:
+  pg_data:

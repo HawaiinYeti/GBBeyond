@@ -62,7 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_222154) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.json "q", default: {}
+    t.jsonb "q", default: {}
   end
 
   create_table "settings", force: :cascade do |t|
@@ -76,8 +76,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_222154) do
   create_table "shows", force: :cascade do |t|
     t.integer "api_id"
     t.string "title"
-    t.json "image_urls", default: {}
-    t.json "logo_urls", default: {}
+    t.jsonb "image_urls", default: {}
+    t.json b"logo_urls", default: {}
     t.string "site_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -88,9 +88,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_222154) do
     t.integer "api_guid"
     t.string "name"
     t.text "deck"
-    t.json "image_urls", default: {}
+    t.jsonb "image_urls", default: {}
     t.integer "show_id"
-    t.json "video_urls", default: {}
+    t.jsonb "video_urls", default: {}
     t.integer "category_id"
     t.string "site_url"
     t.string "youtube_id"

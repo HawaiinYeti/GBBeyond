@@ -6,9 +6,9 @@ class CreateVideos < ActiveRecord::Migration[7.0]
       t.integer :api_guid
       t.string :name
       t.text :deck
-      t.json :image_urls, default: {}
+      t.jsonb :image_urls, default: {}
       t.integer :show_id
-      t.json :video_urls, default: {}
+      t.jsonb :video_urls, default: {}
       t.integer :category_id
       t.string :site_url
       t.string :youtube_id

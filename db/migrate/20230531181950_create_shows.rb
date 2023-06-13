@@ -4,8 +4,8 @@ class CreateShows < ActiveRecord::Migration[7.0]
 
       t.integer :api_id
       t.string :title
-      t.json :image_urls, default: {}
-      t.json :logo_urls, default: {}
+      t.jsonb :image_urls, default: {}
+      t.jsonb :logo_urls, default: {}
       t.string :site_url
 
       t.timestamps
