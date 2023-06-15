@@ -1,6 +1,8 @@
 class Channel < ApplicationRecord
   has_many :channel_queue_items
 
+  after_create :run_queue_job
+
   def current_queue_item
     channel_queue_items.where('start_time <= :time AND finish_time >= :time', time: Time.now).first
   end
@@ -61,5 +63,9 @@ class Channel < ApplicationRecord
 
   def videos
     Video.ransack(q).result
+  end
+
+  def run_queue_job
+    QueueJob.perform_later
   end
 end

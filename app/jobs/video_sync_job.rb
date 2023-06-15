@@ -2,6 +2,8 @@ class VideoSyncJob < ApplicationJob
   include SuckerPunch::Job
 
   def perform(start_date = nil)
+    return if Setting.gb_api_key.blank?
+
     gb_client = Api::GB.new
 
     start_date = if start_date.nil? && Video.all.size.zero?

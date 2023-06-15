@@ -52,7 +52,7 @@ development:
   # Keys not described there are documented inline and in https://github.com/shakacode/shakapacker/
   dev_server:
     https: false
-    host: localhost
+    host: 0.0.0.0
     port: 3035
     # Hot Module Replacement updates modules while the application is running without a full reload
     # Used instead of the `hot` key in https://webpack.js.org/configuration/dev-server/#devserverhot
@@ -69,7 +69,7 @@ development:
     # live_reload: true
     client:
       # Should we show a full-screen overlay in the browser when there are compiler errors or warnings?
-      overlay: true
+      overlay: false
       # May also be a string
       # webSocketURL:
       #  hostname: '0.0.0.0'

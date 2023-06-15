@@ -20,7 +20,6 @@ ActiveAdmin.register Video do
 
   filter :name
   filter :show
-  filter :show
   filter :publish_date
   filter :error_on_last_play
   filter :length, label: 'Length (seconds)'

@@ -18,7 +18,11 @@ RUN --mount=type=cache,target=/var/cache/apt \
     git \
     libpq-dev \
     libvips \
-    curl
+    curl \
+    nodejs \
+    npm
+
+RUN npm install -g yarn
 
 ENV LANG=C.UTF-8 \
   BUNDLE_JOBS=4 \
@@ -30,6 +34,7 @@ WORKDIR /usr/src/app
 
 ENTRYPOINT ["./bin/docker-entrypoint.sh"]
 
-EXPOSE 3000
+EXPOSE 8282
+EXPOSE 3035
 
-CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "foreman", "start", "-f", "Procfile.dev"]

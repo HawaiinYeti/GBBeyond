@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_06_08_222154) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -24,8 +27,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_222154) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -44,7 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_222154) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.integer "blob_id", null: false
+    t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -77,7 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_222154) do
     t.integer "api_id"
     t.string "title"
     t.jsonb "image_urls", default: {}
-    t.json b"logo_urls", default: {}
+    t.jsonb "logo_urls", default: {}
     t.string "site_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
