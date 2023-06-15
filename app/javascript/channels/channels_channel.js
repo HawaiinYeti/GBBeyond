@@ -42,7 +42,6 @@ $(window).on('load', function() {
       channel_el.addClass('playing')
 
       if (channels[key].queue.length > 0) {
-        player.controlBar.progressControl.enable();
         player.src(buildUrl(channels[key].queue[0]))
 
         updateWhatsPlaying(channels[key].queue[0])
