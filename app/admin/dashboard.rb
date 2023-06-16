@@ -26,13 +26,13 @@ ActiveAdmin.register_page "Dashboard" do
                   tag.p
                 end
                 div id: 'current-video-publish-date' do
-                  ('Aired: ' + tag.span).html_safe
+                  ('<b>Aired:</b> ' + tag.span).html_safe
                 end
                 div id: 'current-video-start-time' do
-                  ('Started: ' + tag.span).html_safe
+                  ('<b>Started:</b> ' + tag.span).html_safe
                 end
                 div id: 'current-video-finish-time' do
-                  ('Ends: ' + tag.span).html_safe
+                  ('<b>Ends:</b> ' + tag.span).html_safe
                 end
               end
             end
