@@ -16,6 +16,13 @@ ActiveAdmin.register Video do
     redirect_to videos_path, notice: 'Syncing videos...'
   end
 
+  collection_action :delete_all, method: :get do
+    Video.delete_all
+    ChannelQueueItem.delete_all
+    ActiveRecord::Base.connection.reset_pk_sequence!('videos')
+    redirect_to videos_path, notice: 'Videos Deleted'
+  end
+
   index do
     column 'ID', :id
     column 'API ID', :api_id

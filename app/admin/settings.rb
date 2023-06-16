@@ -19,6 +19,10 @@ ActiveAdmin.register_page "Settings" do
     redirect_to '/settings', notice: "Settings were successfully updated."
   end
 
+  action_item only: :index do
+    link_to 'Delete All Videos', delete_all_videos_path, 'data-confirm': 'This will permanently delete all videos, and you will have to re-sync videos. Are you sure?', method: :get
+  end
+
   content do
     form for: Setting.new, action: settings_update_path, method: :post do |f|
       columns do
