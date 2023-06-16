@@ -19,7 +19,7 @@ services:
       redis:
         condition: service_started
   postgres:
-    image: postgres:15
+    image: postgres:15-alpine
     ports:
       - "5432:5432"
     environment:
@@ -32,7 +32,7 @@ services:
       timeout: 5s
       retries: 30
   redis:
-    image: redis
+    image: redis:7.0.11-alpine
     volumes:
       - redis_data:/data
 
