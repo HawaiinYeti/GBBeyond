@@ -1,7 +1,7 @@
 
 require 'rufus-scheduler'
 
-return if defined?(Rails::Console) || Rails.env.test? || File.split($PROGRAM_NAME).last == 'rake'
+return unless defined?(Rails::Server)
   #
   # do not schedule when Rails is run from its console, for a test/spec, or
   # from a Rake task
@@ -13,7 +13,7 @@ return if defined?(Rails::Console) || Rails.env.test? || File.split($PROGRAM_NAM
 s = Rufus::Scheduler.singleton
 
 s.every '30s' do
-  QueueJob.perform_later
+  QueueJob.perform_now
 end
 
 s.cron '1 0 * * *' do

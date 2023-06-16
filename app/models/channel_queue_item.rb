@@ -15,7 +15,7 @@ class ChannelQueueItem < ApplicationRecord
     {
       queue_item: self,
       video: video,
-      url: video.get_url
+      url: video&.get_url
     }
   end
 end

@@ -108,6 +108,11 @@ GEM
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    delayed_job (4.1.11)
+      activesupport (>= 3.0, < 8.0)
+    delayed_job_active_record (4.1.7)
+      activerecord (>= 3.0, < 8.0)
+      delayed_job (>= 3.0, < 5)
     diff-lcs (1.5.0)
     erubi (1.12.0)
     et-orbi (1.2.7)
@@ -332,8 +337,6 @@ GEM
       sprockets (>= 3.0.0)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
-    sucker_punch (3.1.0)
-      concurrent-ruby (~> 1.0)
     thor (1.2.2)
     tilt (2.1.0)
     timeout (0.3.2)
@@ -377,6 +380,7 @@ DEPENDENCIES
   bundler-audit
   capybara
   debug (= 1.8.0)
+  delayed_job_active_record
   foreman
   httparty
   importmap-rails
@@ -397,7 +401,6 @@ DEPENDENCIES
   shakapacker (~> 6.6)
   sprockets-rails
   stimulus-rails
-  sucker_punch (~> 3.1)
   turbo-rails
   tzinfo-data
   web-console
