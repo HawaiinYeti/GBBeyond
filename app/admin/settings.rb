@@ -32,6 +32,7 @@ ActiveAdmin.register_page "Settings" do
             settings.each do |key, h|
               li do
                 f.label h[:name], for: "setting[#{key}]"
+                f.status_tag '?', class: 'status_tag', title: h[:description] if h[:description].present?
 
                 if h[:field_type] == :checkbox
                   f.input key, { type: :hidden, name: "setting[#{key}]", id: "setting_#{key}", value: '0' }
@@ -53,9 +54,8 @@ end
 
 def settings
   {
-    'gb_api_key' => {name: 'Giant Bomb API Key', field_type: :text},
-    'premium' => {name: 'Premium', field_type: :checkbox},
-    'play_jwplayer' => {name: 'Play JW Player Videos', field_type: :checkbox},
-    'quality_play_order' => {name: 'Quality Play Order', field_type: :text},
+    'premium' => {name: 'Premium', field_type: :checkbox, description: 'Allow premium videos to be played.'},
+    'play_jwplayer' => {name: 'Play JW Player Videos', field_type: :checkbox, description: 'Allow playing videos with JWPlayer URLs. Starting ~2023-02-01, GB started using the JWPlayer CDN. The JWPlayer URLs provided have short expiry times, requiring the API to be hit every time the video is queued up on order to get a new URL. If you have a lot of channels, this can result in you hitting the hourly API limit. Leaving this setting disabled will prevent new videos from being added to your channel queues.'},
+    'quality_play_order' => {name: 'Quality Play Order', field_type: :text, description: 'Comma separated list of qualities to play in order of preference. Example: "hd,high,low"'},
   }
 end
