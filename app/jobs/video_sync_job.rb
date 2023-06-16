@@ -1,5 +1,4 @@
 class VideoSyncJob < ApplicationJob
-  include SuckerPunch::Job
 
   def perform(start_date = nil)
     return if Setting.gb_api_key.blank?

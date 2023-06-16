@@ -1,5 +1,4 @@
 class QueueJob < ApplicationJob
-  include SuckerPunch::Job
 
   def perform
     ActiveRecord::Base.connection_pool.with_connection do
