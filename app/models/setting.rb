@@ -10,7 +10,7 @@ class Setting < RailsSettings::Base
 
   def sync_video_on_first_save
     if self.var == 'gb_api_key' && (saved_change_to_value?(from: nil) || Video.all.size.zero?)
-      VideoSyncJob.perform_async(nil)
+      VideoSyncJob.perform_later(nil)
     end
   end
 end
