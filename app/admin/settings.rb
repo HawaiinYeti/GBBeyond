@@ -19,11 +19,50 @@ ActiveAdmin.register_page "Settings" do
     redirect_to '/settings', notice: "Settings were successfully updated."
   end
 
+  page_action :set_api_key, method: :post do
+    if params[:token] == 'reset'
+      Setting.gb_api_key = nil
+    else
+      resp = HTTParty.get("http://www.giantbomb.com/app/gbbeyond/get-result?regCode=#{params[:token]}&format=json").parsed_response
+      Setting.gb_api_key = resp['regToken']
+    end
+    redirect_to '/settings', notice: "API Key was successfully updated."
+  end
+
   action_item only: :index do
     link_to 'Delete All Videos', delete_all_videos_path, 'data-confirm': 'This will permanently delete all videos, and you will have to re-sync videos. Are you sure?', method: :get
   end
 
   content do
+    panel 'Giant Bomb API Key' do
+      if Setting.gb_api_key.present?
+        h3 'Giant Bomb API Key'
+        para "#{"*" * 36}#{Setting.gb_api_key[-4..-1]}"
+
+        form action: settings_set_api_key_path, method: :post do |f|
+          f.input :authenticity_token, type: :hidden, name: :authenticity_token, value: form_authenticity_token
+          f.input :token, type: :hidden, name: :token, value: 'reset'
+          f.input :submit, type: :submit, value: 'Reset'
+        end
+      else
+        h3 'How to get a Giant Bomb API key:'
+        ol do
+          li do
+            para "Go #{link_to 'here', 'https://www.giantbomb.com/app/gbbeyond/', target: '_blank'} and copy the code.".html_safe
+          end
+          li do
+            para 'Enter code:'
+            form action: settings_set_api_key_path, method: :post do |f|
+              f.input :authenticity_token, type: :hidden, name: :authenticity_token, value: form_authenticity_token
+              f.input :token, type: :text, name: :token
+              br
+              f.input :submit, type: :submit, value: 'Save'
+            end
+          end
+        end
+      end
+    end
+
     form for: Setting.new, action: settings_update_path, method: :post do |f|
       columns do
         panel 'Giant Bomb' do
