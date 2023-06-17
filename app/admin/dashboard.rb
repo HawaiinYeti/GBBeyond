@@ -38,7 +38,7 @@ ActiveAdmin.register_page "Dashboard" do
             end
             panel 'Channels', id: 'channel-listing-panel' do
               div id: 'channel-listing' do
-                Channel.all.each do |channel|
+                Channel.all.order(id: :asc).each do |channel|
                   div class: 'channel', 'data-channel-id': channel.id do
                     div class: 'channel-thumbnail' do
                       img src: (channel.current_queue_item&.video&.image_urls || {}).dig('original_url')
