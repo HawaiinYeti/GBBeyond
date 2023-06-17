@@ -18,10 +18,10 @@ RUN --mount=type=cache,target=/var/cache/apt \
     git \
     libpq-dev \
     libvips \
-    curl \
-    nodejs \
-    npm
+    curl
 
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install -yq nodejs
 RUN npm install -g yarn
 
 ENV LANG=C.UTF-8 \
