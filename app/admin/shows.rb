@@ -13,4 +13,21 @@ ActiveAdmin.register Show do
     end
     actions
   end
+
+  show do
+    default_main_content
+    panel "Videos" do
+      order = params[:order]&.gsub('_asc', ' asc')&.gsub('_desc', ' desc') || 'publish_date desc'
+      paginated_collection(show.videos.eager_load(:show).page(params[:page]).per(50).order(order), download_links: false) do
+        table_for collection, sortable: true do |video|
+          column :name, sortable: :name
+          column :publish_date, sortable: :publish_date
+          column 'Duration', sortable: :length do |video|
+            video.length_str
+          end
+        end
+      end
+    end
+  end
+
 end

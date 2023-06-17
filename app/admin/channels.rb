@@ -44,7 +44,7 @@ ActiveAdmin.register Channel do
         table_for collection, sortable: true do |video|
           column :name, sortable: :name
           column :publish_date, sortable: :publish_date
-          column 'Length', sortable: :length do |video|
+          column 'Duration', sortable: :length do |video|
             video.length_str
           end
           column 'Show' do |video|
