@@ -1,125 +1,75 @@
-![Ruby](https://github.com/ryanwi/rails7-on-docker/workflows/Ruby/badge.svg)
+# GBBeyond
 
-Start here: https://github.com/ryanwi/rails7-on-docker/generate
+Make and watch your own [Giant Bomb Infinite](https://www.giantbomb.com/infinite/)-like channels. Create as many channels as you want, set rules for what videos play on each channel and watch the channels in your browser.
 
-# Rails 7 on Docker demo application
+![Screenshot 2023-06-16 at 17-26-32 Dashboard GBBeyond](https://github.com/HawaiinYeti/GBBeyond/assets/11588185/2f294671-1fd2-4d50-9a3d-9af51dc4edcf)
 
-This app demonstrates Rails 7 with PostgreSQL, import maps, turbo, stimulus and hotwire, all running in Docker.
+## Prerequisites
 
-**NOTE:** [There is also an example Rails 6 application working in Docker with Webpacker](https://github.com/ryanwi/rails-on-docker)
+Before you can run this application, you'll need to have [Docker](https://www.docker.com/products/docker-desktop) installed on your computer
 
-## Features
+## Getting Started
 
-* Rails 7
-* Ruby 3
-* Dockerfile and Docker Compose configuration
-* PostgreSQL database
-* Redis
-* GitHub Actions for 
-  * tests
-  * Rubocop for linting
-  * Security checks with [Brakeman](https://github.com/presidentbeef/brakeman) and [bundler-audit](https://github.com/rubysec/bundler-audit)
-  * Building and testing of a production Docker image
-* Dependabot for automated updates
+1. Clone the repository to your local machine:
 
-## Requirements
+   ```
+   git clone https://github.com/HawaiinYeti/gbbeyond.git
+   ```
 
-Please ensure you are using Docker Compose V2. This project relies on the `docker compose` command, not the previous `docker-compose` standalone program.
+2. Change your working directory to the project root:
 
-https://docs.docker.com/compose/#compose-v2-and-the-new-docker-compose-command
+   ```
+   cd gbbeyond
+   ```
 
-Check your docker compose version with:
-```
-% docker compose version
-Docker Compose version v2.10.2
-```
+3. Build and run the Docker image:
 
-## Initial setup
-```
-cp .env.example .env
-docker compose build
-docker compose run --rm web bin/rails db:setup
-```
+   ```
+   docker compose up
+   ```
 
-## Running the Rails app
-```
-docker compose up
-```
+4. (Optional) Run the container in the background:
 
-## Running the Rails console
-When the app is already running with `docker-compose` up, attach to the container:
-```
-docker compose exec web bin/rails c
-```
+   ```
+   docker compose up -d
+   ```
 
-When no container running yet, start up a new one:
-```
-docker compose run --rm web bin/rails c
-```
+5. Open your web browser and navigate to http://localhost:8282
 
-## Running tests
-```
-docker compose run --rm web bin/rspec
-```
+6. Set up your Giant Bomb API key at http://localhost:8282/settings
 
-## Updating gems
-```
-docker compose run --rm web bundle update
-docker compose up --build
-```
+## Contributing
 
-## Production build
+If you'd like to contribute to this project, please follow these steps:
 
-(adjust tags as needed)
+1. Fork the repository on GitHub.
 
-### with [BuildKit](https://docs.docker.com/build/buildkit/)
-```
-DOCKER_BUILDKIT=1 docker build --tag rails-on-docker --file production.Dockerfile . --load
-```
+2. Clone your forked repository to your local machine:
 
-### With legacy builder (no BuildKit)
-```
-docker build --tag rails-on-docker --file production.Dockerfile .
-```
+   ```
+   git clone https://github.com/your-username/gbbeyond.git
+   ```
 
-## Deployment
+3. Create a new branch to work on:
 
-This app can be hosted wherever Ruby is supported and PostgreSQL databases can be provisioned.
+   ```
+   git checkout -b my-feature-branch
+   ```
 
-#### Render
+4. Make your changes and commit them:
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ryanwi/rails7-on-docker)
+   ```
+   git commit -am 'Add some feature'
+   ```
 
-NOTE: You will need to generate a production secret with `bin/rails secret` and set it as the `SECRET_KEY_BASE` environment variable.
+5. Push your changes to your forked repository:
 
-## Credits/References
+   ```
+   git push origin my-feature-branch
+   ```
 
-### Rails with Docker
-* [Quickstart: Compose and Rails](https://docs.docker.com/compose/rails/)
-* [Docker for Rails Developers
-Build, Ship, and Run Your Applications Everywhere](https://pragprog.com/titles/ridocker/docker-for-rails-developers/)
-* [Ruby on Whales:
-Dockerizing Ruby and Rails development](https://evilmartians.com/chronicles/ruby-on-whales-docker-for-ruby-rails-development)
-* [Rails generator to produce Dockerfiles and related files](https://github.com/rubys/dockerfile-rails)
-* [docker init](https://docs.docker.com/engine/reference/commandline/init/)
-* [Rails 7.1 Dockerfile Generator Template](https://github.com/rails/rails/blob/main/railties/lib/rails/generators/rails/app/templates/Dockerfile.tt)
+6. Create a pull request on GitHub and describe your changes.
 
-### Rails 7 with importmaps 
+## License
 
-* [Alpha preview: Modern JavaScript in Rails 7 without Webpack](https://www.youtube.com/watch?v=PtxZvFnL2i0)
-
-### Rails 7 with hotwire
-
-* [Stimulus 3 + Turbo 7 = Hotwire 1.0](https://world.hey.com/dhh/stimulus-3-turbo-7-hotwire-1-0-9d507133)
-* [Turbo 7](https://world.hey.com/hotwired/turbo-7-0dd7a27f)
-* [Rails 7 will have three great answers to JavaScript in 2021+](https://world.hey.com/dhh/rails-7-will-have-three-great-answers-to-javascript-in-2021-8d68191b)
-* [Hotwire Turbo Replacing Rails UJS](https://www.driftingruby.com/episodes/hotwire-turbo-replacing-rails-ujs)
-
-## Author
-
-**Ryan Williams**
-
-- <https://www.ryanwilliams.dev>
-- <https://twitter.com/ryanwi>
-- <https://hachyderm.io/@ryanwi>
-- <https://github.com/ryanwi>
+This project is licensed under the [MIT License](LICENSE.md).
