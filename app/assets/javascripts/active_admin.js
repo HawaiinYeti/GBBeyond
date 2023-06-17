@@ -26,8 +26,9 @@ $(window).on('load', function() {
         var content = $(button).data('content')
         var new_id, regexp;
         new_id = new Date().getTime();
-        regexp = new RegExp('new_channel', 'g');
-        button.before(content.replace(regexp, new_id));
+
+        content = content.replaceAll('new_condition', new_id).replaceAll('new_grouping', new_id).replaceAll('new_channel', new_id)
+        button.before(content);
         initAddButtons()
         initRemoveButtons()
         initNestButtons()
@@ -42,7 +43,8 @@ $(window).on('load', function() {
         var content = $(button).closest('.inputs').clone().find('.condition').remove().end().prop('outerHTML')
         var new_id = new Date().getTime();
         var name = $(button).closest('.inputs').data('object-name')
-        content = String(content).replaceAll(name, name + '[g][' + new_id + ']');
+
+        content = content.replaceAll(name, name + '[g][' + new_id + ']').replaceAll('new_condition', new_id).replaceAll('new_grouping', new_id).replaceAll('new_channel', new_id)
         button.before(content);
         initAddButtons()
         initRemoveButtons()
