@@ -6,4 +6,10 @@ Rails.application.routes.draw do
   post '/player_error', to: 'player#error'
 
   get 'xmltv', to: 'xmltv#index'
+  scope '/xmltv' do
+    get 'discover', to: 'xmltv#discover'
+    get 'lineup', to: 'xmltv#lineup'
+    get 'lineup_status', to: 'xmltv#lineup_status'
+    get 'channel/:id', to: 'xmltv#channel'
+  end
 end

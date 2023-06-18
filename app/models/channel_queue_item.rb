@@ -18,4 +18,8 @@ class ChannelQueueItem < ApplicationRecord
       url: video&.get_url
     }
   end
+
+  def current_time
+    (Time.now - start_time).to_i
+  end
 end
