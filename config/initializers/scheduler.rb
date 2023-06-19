@@ -12,8 +12,10 @@ return unless defined?(Rails::Server)
 
 s = Rufus::Scheduler.singleton
 
-s.every '30s' do
-  QueueJob.perform_now
+s.every '5m' do
+  ActiveRecord::Base.logger.silence do
+    QueueJob.perform_now
+  end
 end
 
 s.cron '1 0 * * *' do

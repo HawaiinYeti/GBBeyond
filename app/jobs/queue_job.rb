@@ -2,23 +2,28 @@ class QueueJob < ApplicationJob
 
   def perform
     ActiveRecord::Base.connection_pool.with_connection do
+      play_jw = Setting.play_jwplayer
+      play_premium = Setting.premium
+
       Channel.all.each do |channel|
-        if channel.channel_queue_items.size.zero? ||
-          channel.current_queue_item.nil? ||
-          channel.channel_queue_items.maximum(:finish_time) <= 5.minutes.since
+        update = false
+        while (channel.channel_queue_items.maximum(:finish_time) || Time.now) <= 1.hour.since
           videos = channel.videos.
-                  where(premium: [false, Setting.premium].uniq).
-                  where.not(length: [nil, 0])
-          if !Setting.play_jwplayer
-            videos = videos.where.not("video_urls ->> 'high' LIKE '%jwplayer%'")
+                  where(premium: [false, play_premium].uniq).
+                  where.not(length: [nil, 0]);nil
+          if !play_jw
+            videos = videos.where.not("video_urls ->> 'high' LIKE '%jwplayer%'"); nil
           end
           video = videos.random.first
-          return if video.nil?
+          next if video.nil?
 
           channel.add_to_queue(video)
+          update = true
         end
 
-        channel.finished_queue_items.each(&:delete)
+        finished_items = channel.finished_queue_items
+        finished_items.delete_all
+        channel.channel_queue_items.last.broadcast_to_player if update
       end
     end
   end

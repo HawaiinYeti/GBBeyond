@@ -26,20 +26,31 @@ class XmltvController < ApplicationController
   end
 
   def channel
-    queue_item = Channel.find(params[:id]).current_queue_item
-    url = queue_item.video.get_url
+    channel = Channel.find(params[:id])
+    original_url_without_extension = request.original_url.chomp(File.extname(request.original_url))
 
-    ffmpeg_command = "ffmpeg -nostdin -re -ss #{queue_item.current_time} -i '#{url}' -c:v copy -c:a copy -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
-    send_stream(filename: 'test', disposition: 'attachment') do |stream|
-      IO.popen(ffmpeg_command, 'rb') do |io|
-        while (buffer = io.read(4096))
-          response.stream.write(buffer)
+    respond_to do |format|
+      format.text do
+
+        render plain: "ffconcat version 1.0\nfile #{channel.queue_item_at(5.seconds.since).video.get_url}\ninpoint #{[channel.current_queue_item.current_time - 5, 0].max}\n\nfile #{original_url_without_extension}\noption safe 0"
+      end
+      format.all do
+        queue_item = channel.current_queue_item
+        url = queue_item.video.get_url
+
+        ffmpeg_command = "ffmpeg -nostdin -re -protocol_whitelist file,http,https,tls,tcp -safe 0 -i '#{original_url_without_extension}.txt' -muxdelay 1 -muxpreload 1 -c:v copy -c:a copy -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+        send_stream(filename: 'test', disposition: 'attachment') do |stream|
+          IO.popen(ffmpeg_command, 'rb') do |io|
+            while (buffer = io.read(4096))
+              response.stream.write(buffer)
+            end
+          end
+        rescue ActionController::Live::ClientDisconnected
+          nil
+        ensure
+          response.stream.close
         end
       end
-    rescue ActionController::Live::ClientDisconnected
-      nil
-    ensure
-      response.stream.close
     end
   end
 
@@ -53,7 +64,7 @@ class XmltvController < ApplicationController
             xml.send('display-name', channel.name)
           }
         end
-        ChannelQueueItem.all.order(id: :asc).each do |channel_queue_item|
+        ChannelQueueItem.eager_load(:channel, {video: [:show]}).all.order(id: :asc).each do |channel_queue_item|
           xml.programme(
             start: channel_queue_item.start_time.strftime('%Y%m%d%H%M%S %z'),
             stop: channel_queue_item.finish_time.strftime('%Y%m%d%H%M%S %z'),
