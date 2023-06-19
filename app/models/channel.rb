@@ -15,28 +15,32 @@ class Channel < ApplicationRecord
     channel_queue_items.where('start_time > ?', Time.now)
   end
 
+  def queue_item_at(time)
+    channel_queue_items.where('start_time <= :time AND finish_time >= :time', time: time).first
+  end
+
   def add_to_queue(video, at_front = false)
-    start_time = if (channel_queue_items.present? &&
-                     channel_queue_items.last.finish_time < 5.minutes.ago) ||
-                    channel_queue_items.size.zero? ||
+    queue_items = channel_queue_items.order(start_time: :asc).to_a
+    start_time = if (queue_items.present? &&
+                     queue_items.last.finish_time < 5.minutes.ago) ||
+                    queue_items.size.zero? ||
                     at_front
       Time.zone.now
-    elsif channel_queue_items.present?
-      channel_queue_items.last.finish_time
+    elsif queue_items.present?
+      queue_items.last.finish_time
     end
-    channel_queue_items.new(
+    channel_queue_items.eager_load(:channel, :video).new(
         video: video,
         start_time: start_time,
         finish_time: start_time + video.length.seconds
     ).save
 
     if at_front
-      items = channel_queue_items.order(start_time: :asc).to_a
-      items.each_with_index do |item, i|
+      queue_items.each_with_index do |item, i|
         next if i.zero?
 
-        item.update(start_time: items[i - 1].finish_time,
-                    finish_time: items[i - 1].finish_time + item.video.length.seconds)
+        item.update(start_time: queue_items[i - 1].finish_time,
+                    finish_time: queue_items[i - 1].finish_time + item.video.length.seconds)
       end
     end
   end
