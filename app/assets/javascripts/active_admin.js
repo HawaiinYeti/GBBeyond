@@ -6,6 +6,11 @@ $(window).on('load', function() {
 
   $('body').attr('data-turbo', 'false')
   $('body.channels.edit, body.channels.new').each(function() {
+    $('.ui-tab').on('click', function(e) {
+      $('.tab-content input, .tab-content select').attr('disabled', 'disabled').attr('readonly', 'readonly')
+      $(e.target.hash).find('input, select').removeAttr('disabled').removeAttr('readonly')
+    })
+
     $('.video-filters input, .video-filters select').each(function() {
       var name = $(this).attr('name')
     })
@@ -27,7 +32,7 @@ $(window).on('load', function() {
         var new_id, regexp;
         new_id = new Date().getTime();
 
-        content = content.replaceAll('new_condition', new_id).replaceAll('new_grouping', new_id).replaceAll('new_channel', new_id)
+        content = content.replaceAll('new_condition', new_id).replaceAll('new_grouping', new_id).replaceAll('new_channel', new_id).replaceAll('"q', '"channel[q]')
         button.before(content);
         initAddButtons()
         initRemoveButtons()
@@ -44,7 +49,7 @@ $(window).on('load', function() {
         var new_id = new Date().getTime();
         var name = $(button).closest('.inputs').data('object-name')
 
-        content = content.replaceAll(name, name + '[g][' + new_id + ']').replaceAll('new_condition', new_id).replaceAll('new_grouping', new_id).replaceAll('new_channel', new_id)
+        content = content.replaceAll(name, name + '[g][' + new_id + ']').replaceAll('new_condition', new_id).replaceAll('new_grouping', new_id).replaceAll('new_channel', new_id).replaceAll('"q', '"channel[q]')
         button.before(content);
         initAddButtons()
         initRemoveButtons()

@@ -1,4 +1,4 @@
-<%= tag.span f.text_field(:value),
+<%= tag.span f.text_field(:value).gsub('"q', '"channel[q]'),
   class: value_fields,
   'data-object-name': f.object_name,
   escape: false %>

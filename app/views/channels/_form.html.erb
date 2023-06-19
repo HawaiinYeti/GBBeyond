@@ -17,13 +17,31 @@
     </li>
   </ol>
 </fieldset>
-<fieldset class="inputs" id="channel-video-filters">
-  <legend>
-    Video Rules
-  </legend>
-  <%= search_form_for(Video.ransack(resource.q)) do |ff| %>
-      <%= ff.grouping_fields { |g| render 'grouping_fields', f: g } %>
-      <%= button_to_add_fields(ff, :grouping) %>
-  <% end %>
-</fieldset>
+<div class="tabs ui-tabs ui-corner-all ui-widget ui-widget-content">
+  <ul class="nav nav-tabs ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header" role="tablist">
+    <li role="tab" tabindex="0" class="ui-tabs-tab ui-corner-top ui-state-default ui-tab ui-tabs-active ui-state-active" aria-controls="rule_builder" aria-labelledby="ui-id-1" aria-selected="true" aria-expanded="true"><a href="#rule_builder" role="presentation" tabindex="-1" class="ui-tabs-anchor" id="ui-id-1">Rule Builder</a></li>
+    <li role="tab" tabindex="-1" class="ui-tabs-tab ui-corner-top ui-state-default ui-tab" aria-controls="raw" aria-labelledby="ui-id-2" aria-selected="false" aria-expanded="false"><a href="#raw" role="presentation" tabindex="-1" class="ui-tabs-anchor" id="ui-id-2">Raw</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="rule_builder" aria-labelledby="ui-id-1" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content">
+      <fieldset class="inputs" id="channel-video-filters">
+        <legend>
+          Video Rules
+        </legend>
+        <%= search_form_for(Video.ransack(resource.q)) do |ff| %>
+            <%= ff.grouping_fields { |g| render 'grouping_fields', f: g } %>
+            <%= button_to_add_fields(ff, :grouping) %>
+        <% end %>
+      </fieldset>
+    </div>
+    <div id="raw" aria-labelledby="ui-id-2" role="tabpanel" class="ui-tabs-panel ui-corner-bottom ui-widget-content" style="display: none;" aria-hidden="true">
+      <fieldset class="inputs" id="channel-video-filters">
+          <legend>
+            Raw Rules
+          </legend>
+          <%= f.text_field :q, value: resource.q.to_s, label: false, class: 'form-control', disabled: 'disabled', readonly: 'readonly' %>
+        </fieldset>
+    </div>
+  </div>
+</div>
 <% end %>

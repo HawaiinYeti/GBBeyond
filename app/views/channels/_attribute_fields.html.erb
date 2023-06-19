@@ -1,4 +1,4 @@
-<%= tag.span f.attribute_select(associations: %w[show]),
+<%= tag.span f.attribute_select(associations: %w[show]).gsub('"q', '"channel[q]'),
              class: :fields,
-             'data-object-name': f.object_name,
+             'data-object-name': f.object_name.gsub('q', 'channel[q]'),
              escape: false %>
