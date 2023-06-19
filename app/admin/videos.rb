@@ -39,7 +39,7 @@ ActiveAdmin.register Video do
   end
 
   filter :name
-  filter :show
+  filter :show, collection: proc { Show.all.order(title: :asc).pluck(:title, :api_id) }
   filter :publish_date
   filter :error_on_last_play
   filter :length, label: 'Length (seconds)'
