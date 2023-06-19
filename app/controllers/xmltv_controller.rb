@@ -39,16 +39,20 @@ class XmltvController < ApplicationController
         url = queue_item.video.get_url
 
         ffmpeg_command = "ffmpeg -nostdin -re -protocol_whitelist file,http,https,tls,tcp -safe 0 -i '#{original_url_without_extension}.txt' -muxdelay 1 -muxpreload 1 -c:v copy -c:a copy -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
-        send_stream(filename: 'test', disposition: 'attachment') do |stream|
-          IO.popen(ffmpeg_command, 'rb') do |io|
-            while (buffer = io.read(4096))
+
+        send_stream(filename: 'v', disposition: 'attachment') do |stream|
+          Open3.popen3(ffmpeg_command) do |stdin, stdout, stderr, wait_thr|
+            pid = wait_thr.pid
+            while (buffer = stdout.read(4096))
               response.stream.write(buffer)
             end
+            Process.wait(pid)
+            response.stream.close
+          rescue
+            response.stream.close
+          ensure
+            response.stream.close
           end
-        rescue ActionController::Live::ClientDisconnected
-          nil
-        ensure
-          response.stream.close
         end
       end
     end

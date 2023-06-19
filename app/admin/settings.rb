@@ -84,6 +84,11 @@ ActiveAdmin.register_page "Settings" do
       f.input :submit, type: :submit, value: 'Save'
       end
     end
+
+    panel 'TV Tuner' do
+      h3 'xmltv.xml location:'
+      para link_to(request.base_url + '/xmltv.xml')
+    end
   end
 end
 

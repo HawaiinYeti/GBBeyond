@@ -7,7 +7,7 @@ class QueueJob < ApplicationJob
 
       Channel.all.each do |channel|
         update = false
-        while (channel.channel_queue_items.maximum(:finish_time) || Time.now) <= 1.hour.since
+        while (channel.channel_queue_items.maximum(:finish_time) || Time.now) <= 2.hours.since
           videos = channel.videos.
                   where(premium: [false, play_premium].uniq).
                   where.not(length: [nil, 0]);nil
