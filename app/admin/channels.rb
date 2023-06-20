@@ -13,13 +13,13 @@ ActiveAdmin.register Channel do
     def update
       channel = Channel.find(params[:id])
       channel.update(model_params)
-      channel.update(q: JSON.parse(params[:channel][:q].to_s.gsub('=>', ':')))
+      channel.update(q: JSON.parse((params[:channel][:q] || '{}').to_s.gsub('=>', ':')))
       redirect_to channels_path
     end
 
     def create
       channel = Channel.create(model_params)
-      channel.update(q: params[:q])
+      channel.update(q: JSON.parse((params[:channel][:q] || '{}').to_s.gsub('=>', ':')))
       redirect_to channels_path
     end
   end
