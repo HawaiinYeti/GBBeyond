@@ -85,7 +85,9 @@ ActiveAdmin.register_page "Settings" do
       end
     end
 
-    panel 'TV Tuner' do
+    panel 'TV Tuner Info' do
+      h3 'HDHomeRun Device Address:'
+      para link_to(request.base_url + '/xmltv', request.base_url + '/xmltv')
       h3 'xmltv.xml location:'
       para link_to(request.base_url + '/xmltv.xml', request.base_url + '/xmltv.xml')
     end
