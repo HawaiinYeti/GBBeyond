@@ -2,11 +2,12 @@ ActiveAdmin.register Channel do
   menu priority: 2
   filter :name
   form partial: 'form'
+  config.sort_order = 'position_asc'
 
 
   controller do
     def model_params
-      params.require(:channel).permit(:name)
+      params.require(:channel).permit(:name, :position)
     end
 
     def update
@@ -24,7 +25,7 @@ ActiveAdmin.register Channel do
   end
 
   index download_links: false do
-    column :id
+    column :position
     column :name
     column 'Total Videos' do |channel|
       channel.videos.size

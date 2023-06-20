@@ -91,3 +91,4 @@ gem "rufus-scheduler", "~> 3.9"
 gem "activeadmin_dark_color_scheme"
 gem 'momentjs-rails'
 gem 'delayed_job_active_record'
+gem 'acts_as_list'

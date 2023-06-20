@@ -26,7 +26,7 @@ class XmltvController < ApplicationController
   end
 
   def channel
-    channel = Channel.find(params[:id])
+    channel = Channel.find_by(position: params[:id])
     original_url_without_extension = request.original_url.chomp(File.extname(request.original_url))
 
     respond_to do |format|
@@ -60,16 +60,16 @@ class XmltvController < ApplicationController
   def build_xml
     Nokogiri::XML::Builder.new do |xml|
       xml.tv('generator-info-name': 'GBBeyond') {
-        Channel.all.order(id: :asc).each do |channel|
-          xml.channel(id: channel.id) {
+        Channel.all.order(position: :asc).each do |channel|
+          xml.channel(id: channel.position) {
             xml.send('display-name', channel.name)
           }
         end
-        ChannelQueueItem.eager_load(:channel, {video: [:show]}).all.order(id: :asc).each do |channel_queue_item|
+        ChannelQueueItem.eager_load(:channel, {video: [:show]}).all.order(position: :asc).each do |channel_queue_item|
           xml.programme(
             start: channel_queue_item.start_time.strftime('%Y%m%d%H%M%S %z'),
             stop: channel_queue_item.finish_time.strftime('%Y%m%d%H%M%S %z'),
-            channel: channel_queue_item.channel_id
+            channel: channel_queue_item.channel.position
           ) {
             xml.send('sub-title', channel_queue_item.video.show.title, lang: 'en') if channel_queue_item.video.show.present?
             xml.title channel_queue_item.video.name, lang: 'en'
@@ -93,11 +93,11 @@ class XmltvController < ApplicationController
   end
 
   def build_lineup
-    Channel.all.order(id: :asc).map do |channel|
+    Channel.all.order(position: :asc).map do |channel|
       {
-        GuideNumber: channel.id.to_s,
+        GuideNumber: channel.position.to_s,
         GuideName: channel.name,
-        URL: "http://#{request.host_with_port}/xmltv/channel/#{channel.id}.json"
+        URL: "http://#{request.host_with_port}/xmltv/channel/#{channel.position}"
       }
     end
   end

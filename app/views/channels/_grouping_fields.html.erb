@@ -1,5 +1,5 @@
 <%= tag.fieldset class: 'inputs video-filters', 'data-object-name': f.object_name do %>
-  <%= tag.legend "Match #{f.combinator_select} conditions #{
+  <%= tag.legend "Match #{f.combinator_select.gsub('"q', '"channel[q]')} conditions #{
     button_to_remove_fields}", escape: false %>
 
   <%= f.condition_fields do |c| %>

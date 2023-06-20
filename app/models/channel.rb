@@ -1,5 +1,6 @@
 class Channel < ApplicationRecord
   has_many :channel_queue_items
+  acts_as_list
 
   after_create :run_queue_job
 
