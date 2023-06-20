@@ -97,7 +97,7 @@ class XmltvController < ApplicationController
       {
         GuideNumber: channel.position.to_s,
         GuideName: channel.name,
-        URL: "http://#{request.host_with_port}/xmltv/channel/#{channel.position}"
+        URL: "http://#{request.host_with_port}/xmltv/channel/#{channel.position}.mp4"
       }
     end
   end
