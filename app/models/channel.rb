@@ -1,5 +1,5 @@
 class Channel < ApplicationRecord
-  has_many :channel_queue_items
+  has_many :channel_queue_items, dependent: :destroy
   acts_as_list
 
   after_create :run_queue_job
