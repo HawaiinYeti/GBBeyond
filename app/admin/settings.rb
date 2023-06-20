@@ -87,7 +87,7 @@ ActiveAdmin.register_page "Settings" do
 
     panel 'TV Tuner' do
       h3 'xmltv.xml location:'
-      para link_to(request.base_url + '/xmltv.xml')
+      para link_to(request.base_url + '/xmltv.xml', request.base_url + '/xmltv.xml')
     end
   end
 end
