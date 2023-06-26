@@ -21,6 +21,13 @@
       <%= f.number_field :position %>
     </li>
     <% end %>
+    <li class="string input optional stringish" id="channel_archive_videos_input">
+      <%= f.label :archive_videos, class: "label" do %>
+        Archive Videos
+        <span class="status_tag ?" title="When enabled, videos will be downloaded to the Archive Path specified in the Settings page. The downloader will prioritize the download quality based on the play order specified in the settings. Subsequently, when an archived video is played on a channel, the stored file will be played instead of being streamed from Giant Bomb">?</span>
+      <% end %>
+      <%= f.check_box :archive_videos %>
+    </li>
   </ol>
 </fieldset>
 <div class="tabs ui-tabs ui-corner-all ui-widget ui-widget-content">

@@ -8,7 +8,7 @@ ActiveAdmin.register_page "Dashboard" do
         columns do
           column span: 3 do
             panel '', id: 'video-player-panel' do
-              video id: 'video-player', class: 'video-js' do
+              video id: 'video-player', class: 'video-js', type: 'video/mp4' do
                 source src: 'blank.mp4', type: 'video/mp4'
               end
             end

@@ -100,8 +100,9 @@ end
 
 def settings
   {
-    'premium' => {name: 'Premium', field_type: :checkbox, description: 'Allow premium videos to be played.'},
-    'play_jwplayer' => {name: 'Play JW Player Videos', field_type: :checkbox, description: 'Allow playing videos with JWPlayer URLs. Starting ~2023-02-01, GB started using the JWPlayer CDN. The JWPlayer URLs provided have short expiry times, requiring the API to be hit every time the video is queued up on order to get a new URL. If you have a lot of channels, this can result in you hitting the hourly API limit. Leaving this setting disabled will prevent new videos from being added to your channel queues.'},
-    'quality_play_order' => {name: 'Quality Play Order', field_type: :text, description: 'Comma separated list of qualities to play in order of preference. Example: "hd,high,low"'},
+    'premium' => { name: 'Premium', field_type: :checkbox, description: 'Allow premium videos to be played.' },
+    'play_jwplayer' => { name: 'Play JW Player Videos', field_type: :checkbox, description: 'Allow playing videos with JWPlayer URLs. Starting ~2023-02-01, GB started using the JWPlayer CDN. The JWPlayer URLs provided have short expiry times, requiring the API to be hit every time the video is queued up on order to get a new URL. If you have a lot of channels, this can result in you hitting the hourly API limit. Leaving this setting disabled will prevent new videos from being added to your channel queues.' },
+    'quality_play_order' => { name: 'Quality Play Order', field_type: :text, description: 'Comma separated list of qualities to play in order of preference. Example: "hd,high,low"' },
+    'archive_path' => { name: 'Archive Path', field_type: :text, description: 'Local directory to archive videos to. Example: "/Users/user_name/media/gb_videos" or "C:/media/gb_videos". You also need to enable the Archive Videos setting on individual channels for videos to save. Docker restart required for changes to take effect' },
   }
 end

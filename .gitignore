@@ -62,6 +62,7 @@ node_modules/
 /public/packs
 /public/packs-test
 /public/assets
+/public/videos
 
 # Ignore yarn files
 /yarn-error.log

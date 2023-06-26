@@ -7,7 +7,7 @@ ActiveAdmin.register Channel do
 
   controller do
     def model_params
-      params.require(:channel).permit(:name, :position)
+      params.require(:channel).permit(:name, :position, :archive_videos)
     end
 
     def update
@@ -27,6 +27,9 @@ ActiveAdmin.register Channel do
   index download_links: false do
     column :position
     column :name
+    column 'Current Video' do |channel|
+      link_to channel.current_queue_item&.video&.name, channel.current_queue_item&.video
+    end
     column 'Total Videos' do |channel|
       channel.videos.size
     end
@@ -34,6 +37,7 @@ ActiveAdmin.register Channel do
       # convert to hours, formatted in hours:minues:seconds
       channel.videos.length_str
     end
+    column :archive_videos
     actions
   end
 
