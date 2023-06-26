@@ -32,7 +32,7 @@ config/master.key
 
 # dotenv
 # TODO Comment out this rule if environment variables can be committed
-# .env
+.env
 
 ## Environment normalization:
 /.bundle
@@ -62,6 +62,7 @@ node_modules/
 /public/packs
 /public/packs-test
 /public/assets
+/public/videos
 
 # Ignore yarn files
 /yarn-error.log

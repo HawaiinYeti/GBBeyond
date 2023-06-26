@@ -1,6 +1,12 @@
 ActiveAdmin.register Video do
   menu priority: 4
 
+  controller do
+    def scoped_collection
+      super.eager_load :show
+    end
+  end
+
   actions :all, except: [:new, :edit, :destroy]
 
   action_item only: :index do
@@ -9,6 +15,12 @@ ActiveAdmin.register Video do
     link_to 'Sync Videos', sync_videos_path,
             class: (running ? 'disabled' : ''),
             title: (running ? 'Job is currently running' : '')
+  end
+
+  member_action :archive, method: :put do
+    resource.delay(queue: 'oneoff').archive_video
+    spawn('QUEUE=oneoff bundle exec rails jobs:workoff')
+    redirect_back fallback_location: resource_path, notice: 'Video is being archived'
   end
 
   collection_action :sync, method: :get do
@@ -35,7 +47,13 @@ ActiveAdmin.register Video do
     column :premium
     column :publish_date
     column :error_on_last_play
-    actions
+    column :archived
+    column :archived_quality do |video|
+      status_tag(video.archived_quality, class: video.archived_quality) if video.archived
+    end
+    actions do |video|
+      item 'Archive', archive_video_path(video), method: :put
+    end
   end
 
   filter :name
@@ -43,4 +61,7 @@ ActiveAdmin.register Video do
   filter :publish_date
   filter :error_on_last_play
   filter :length, label: 'Length (seconds)'
+  filter :archived
+  filter :archived_quality, as: :select, collection: %w[hd high low]
 end
+

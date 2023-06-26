@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_19_233603) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_20_214251) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,6 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_19_233603) do
     t.datetime "updated_at", null: false
     t.jsonb "q", default: {}
     t.integer "position"
+    t.boolean "archive_videos", default: false
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -120,6 +121,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_19_233603) do
     t.datetime "updated_at", null: false
     t.boolean "error_on_last_play", default: false
     t.datetime "error_on_last_play_at"
+    t.boolean "archived", default: false
+    t.string "archived_quality"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

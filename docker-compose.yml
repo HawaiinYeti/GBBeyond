@@ -2,10 +2,11 @@ services:
   web:
     build: .
     command: >
-      bash -c "bundle exec foreman start -f Procfile.dev"
+      bash -c "bundle exec foreman start -f Procfile.dev -m web=1,webpacker=1,worker=2"
     volumes:
       - .:/usr/src/app
       - bundle:/usr/local/bundle
+      - ${ARCHIVE_PATH}:/usr/src/app/public/archive
     ports:
       - "8282:8282"
       - "3035:3035"
