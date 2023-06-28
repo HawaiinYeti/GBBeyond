@@ -105,5 +105,4 @@ def settings
     'quality_play_order' => { name: 'Quality Play Order', field_type: :text, description: 'Comma separated list of qualities to play in order of preference. Example: "hd,high,low"' },
     'archive_path' => { name: 'Archive Path', field_type: :text, description: 'Local directory to archive videos to. Example: "/Users/user_name/media/gb_videos" or "C:\media\gb_videos". You also need to enable the Archive Videos setting on individual channels for videos to save. Docker restart and rebuild required for changes to take effect. Quick restart with `. ./restart.sh` in terminal' },
   }
-  }
 end
