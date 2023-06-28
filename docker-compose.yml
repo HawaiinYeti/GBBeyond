@@ -6,12 +6,10 @@ services:
     volumes:
       - .:/usr/src/app
       - bundle:/usr/local/bundle
-      - ${ARCHIVE_PATH}:/usr/src/app/public/archive
+      - ${ARCHIVE_PATH:-.}:/usr/src/app/public/archive
     ports:
       - "8282:8282"
       - "3035:3035"
-    env_file:
-      - .env
     environment:
       - HISTFILE=/usr/src/app/log/.bash_history
     depends_on:
