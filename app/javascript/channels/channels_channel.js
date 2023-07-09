@@ -14,14 +14,7 @@ $(window).on('load', function() {
 
       received(data) {
         // Called when there's incoming data on the websocket for this channel
-        if (data.command == "initial_channel_listing") {
-          channels = data.data
-
-          var first_key = Object.keys(channels)[0]
-          if (channels[first_key].queue.length > 0) {
-            playChannel(first_key)
-          }
-        } else if (data.command == 'channel_update') {
+        if (data.command == 'channel_update') {
           var key = parseInt(Object.keys(data.data)[0])
           channels[key] = data.data[key]
           if (current_channel == key && (channels[key].queue.length == 0 || Date.parse(channels[key].queue[0].queue_item.finish_time) < Date.now())) {
@@ -33,7 +26,13 @@ $(window).on('load', function() {
     });
 
     window.current_channel = parseInt($('#channel-listing .channel').first().data('channel-id'))
-    window.channels = {}
+
+    function initPlay() {
+      var first_key = Object.keys(channels)[0]
+      if (channels[first_key].queue.length > 0) {
+        playChannel(first_key)
+      }
+    }
 
     function playChannel(key) {
       current_channel = parseInt(key)
@@ -141,5 +140,6 @@ $(window).on('load', function() {
     setInterval(function() {
       updateQueues()
     } , 1000)
+    initPlay()
   })
 })

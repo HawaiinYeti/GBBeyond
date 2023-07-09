@@ -63,5 +63,8 @@ ActiveAdmin.register_page "Dashboard" do
 
       end
     end
+    script do
+      raw "window.channels = #{Channel.order(name: :asc).channel_listing.to_json};"
+    end
   end
 end
