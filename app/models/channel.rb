@@ -3,6 +3,7 @@ class Channel < ApplicationRecord
   acts_as_list
 
   after_create :run_queue_job
+  after_update :check_queue
 
   def current_queue_item
     channel_queue_items.where('start_time <= :time AND finish_time >= :time', time: Time.now).first
@@ -72,5 +73,14 @@ class Channel < ApplicationRecord
 
   def run_queue_job
     QueueJob.perform_later
+  end
+
+  def check_queue
+    return unless saved_change_to_q?
+
+    current_id = current_queue_item&.id if videos.include?(current_queue_item&.video)
+
+    channel_queue_items.where.not(id: current_id).destroy_all
+    run_queue_job
   end
 end
