@@ -7,10 +7,10 @@ class QueueJob < ApplicationJob
 
       Channel.all.each do |channel|
         update = false
-        while (channel.channel_queue_items.maximum(:finish_time) || Time.now) <= 2.hours.since
+        while (channel.channel_queue_items.maximum(:finish_time) || Time.now) <= (Setting.hours_to_enqueue).hours.since
           videos = channel.videos.
                   where(premium: [false, play_premium].uniq).
-                  where.not(length: [nil, 0]);nil
+                  where.not(length: [nil, 0])
           if !play_jw
             videos = videos.where.not("video_urls ->> 'high' LIKE '%jwplayer%'"); nil
           end
@@ -21,8 +21,7 @@ class QueueJob < ApplicationJob
           update = true
         end
 
-        finished_items = channel.finished_queue_items
-        finished_items.delete_all
+        channel.finished_queue_items.destroy_all
         channel.channel_queue_items.last.broadcast_to_player if update
       end
     end
