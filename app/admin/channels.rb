@@ -24,6 +24,12 @@ ActiveAdmin.register Channel do
     end
   end
 
+  member_action :skip_queue_item, method: :post do
+    queue_item = resource.channel_queue_items.find(params[:queue_item_id])
+    queue_item.skip
+    redirect_back fallback_location: resource_path, notice: "\"#{queue_item.video.name}\" has been skipped"
+  end
+
   index download_links: false do
     column :position
     column :name

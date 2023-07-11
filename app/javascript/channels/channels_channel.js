@@ -17,7 +17,9 @@ $(window).on('load', function() {
         if (data.command == 'channel_update') {
           var key = parseInt(Object.keys(data.data)[0])
           channels[key] = data.data[key]
-          if (current_channel == key && (channels[key].queue.length == 0 || Date.parse(channels[key].queue[0].queue_item.finish_time) < Date.now())) {
+          if (current_channel == key &&
+              (window.waiting_on_channel_update ||
+               (channels[key].queue.length == 0 || Date.parse(channels[key].queue[0].queue_item.finish_time) < Date.now()))) {
             playChannel(current_channel)
           }
           updateChannelListings()
@@ -85,6 +87,7 @@ $(window).on('load', function() {
       $('#current-video-panel #current-video-publish-date span').html(moment(video.publish_date).format("YYYY-MM-DD"))
       $('#current-video-panel #current-video-start-time span').html(moment(queue_item.queue_item.start_time).format("YYYY-MM-DD HH:mm:ss"))
       $('#current-video-panel #current-video-finish-time span').html(moment(queue_item.queue_item.finish_time).format("YYYY-MM-DD HH:mm:ss"))
+      $('#current-video-panel #current-video-skip-button a').attr('href', queue_item.skip_url)
     }
 
     function buildUrl(data) {
@@ -135,6 +138,10 @@ $(window).on('load', function() {
 
     $('#channel-listing .channel').on('click', function() {
       playChannel($(this).data('channel-id'))
+    })
+
+    $('#current-video-panel #current-video-skip-button a').on('click', function(e) {
+      window.waiting_on_channel_update = true
     })
 
     setInterval(function() {

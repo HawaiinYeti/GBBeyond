@@ -34,6 +34,9 @@ ActiveAdmin.register_page "Dashboard" do
                 div id: 'current-video-finish-time' do
                   ('<b>Ends:</b> ' + tag.span).html_safe
                 end
+                div id: 'current-video-skip-button' do
+                  button(link_to('Skip', '#', data: { remote: true }, method: :post))
+                end
               end
             end
             panel 'Channels', id: 'channel-listing-panel' do
