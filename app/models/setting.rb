@@ -8,6 +8,7 @@ class Setting < RailsSettings::Base
   field :play_jwplayer, type: :boolean, default: false
   field :quality_play_order, type: :string, default: 'hd,high,low'
   field :archive_path, type: :string, default: ''
+  field :archive_method, type: :string, default: 'Playback'
 
   def sync_video_on_first_save
     if self.var == 'gb_api_key' && (saved_change_to_value?(from: nil) || Video.all.size.zero?)

@@ -4,10 +4,15 @@ class ArchiveJob < ApplicationJob
   def perform()
     return unless Setting.archive_path.present?
 
-    current_videos = Channel.where(archive_videos: true).
-                     map { |x| x.current_queue_item&.video if !x.current_queue_item&.video.archived }.uniq.compact
-    current_videos.each do |video|
-      video.archive_video
+    if Setting.archive_method == 'Playback'
+      Channel.where(archive_videos: true).
+        map { |x| x.current_queue_item&.video unless x.current_queue_item&.video.archived }.
+        uniq.compact.
+        each(&:archive_video)
+    elsif Setting.archive_method == 'Continuous'
+      Channel.where(archive_videos: true).
+        map { |x| x.videos.where(archived: false).last }.uniq.compact.
+        each(&:archive_video)
     end
   end
 end
