@@ -49,6 +49,26 @@ ActiveAdmin.register Channel do
 
   show do
     default_main_content
+    panel "Current Queue" do
+      paginated_collection(channel.channel_queue_items.eager_load(:video).page(params[:page]).per(50).order(start_time: :asc), download_links: false) do
+        table_for collection do |queue_item|
+          column 'Name' do |q_i|
+            link_to q_i.video.name, q_i.video
+          end
+          column :start_time
+          column 'Duration' do |q_i|
+            q_i.video.length_str
+          end
+          column 'Show' do |q_i|
+            q_i.video.show&.title
+          end
+          column 'Actions' do |q_i|
+            link_to 'Skip',  skip_queue_item_channel_path(q_i.channel.id, queue_item_id: q_i.id), method: :post
+          end
+        end
+      end
+    end
+
     panel "Videos" do
       order = params[:order]&.gsub('_asc', ' asc')&.gsub('_desc', ' desc') || 'publish_date desc'
       paginated_collection(channel.videos.eager_load(:show).page(params[:page]).per(50).order(order), download_links: false) do
