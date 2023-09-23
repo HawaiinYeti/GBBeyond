@@ -66,7 +66,9 @@ ActiveAdmin.register Video do
   end
 
   filter :name
+  filter :deck
   filter :show, collection: proc { Show.all.order(title: :asc).pluck(:title, :api_id) }
+  filter :premium
   filter :publish_date
   filter :error_on_last_play
   filter :length, label: 'Length (seconds)'
