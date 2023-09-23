@@ -58,4 +58,13 @@ $(window).on('load', function() {
     }
     initNestButtons()
   })
+
+  $('body.videos.show').each(function() {
+    videojs('video-player', {
+      autoplay: 'any',
+      fluid: true,
+      controls: true,
+      preload: 'auto'
+    })
+  })
 })

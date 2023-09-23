@@ -56,6 +56,15 @@ ActiveAdmin.register Video do
     end
   end
 
+  show do |v|
+    default_main_content
+    panel "Player" do
+      video id: 'video-player', class: 'video-js', type: 'video/mp4' do
+        source src: v.get_url, type: 'video/mp4'
+      end
+    end
+  end
+
   filter :name
   filter :show, collection: proc { Show.all.order(title: :asc).pluck(:title, :api_id) }
   filter :publish_date
