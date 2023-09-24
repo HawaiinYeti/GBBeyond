@@ -8,9 +8,10 @@ class QueueJob < ApplicationJob
       Channel.all.each do |channel|
         update = false
         while (channel.channel_queue_items.maximum(:finish_time) || Time.now) <= (Setting.hours_to_enqueue).hours.since
-          videos = channel.videos.
-                  where(premium: [false, play_premium].uniq).
-                  where.not(length: [nil, 0])
+          videos = channel.videos.where.not(length: [nil, 0])
+          if !play_premium
+            videos = videos.where("(premium = false OR archived = true)")
+          end
           if !play_jw
             videos = videos.where("(video_urls::text NOT LIKE '%jwplayer%' OR archived = true)")
           end
