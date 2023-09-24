@@ -12,7 +12,7 @@ class QueueJob < ApplicationJob
                   where(premium: [false, play_premium].uniq).
                   where.not(length: [nil, 0])
           if !play_jw
-            videos = videos.where.not("video_urls::text LIKE '%jwplayer%'")
+            videos = videos.where("(video_urls::text NOT LIKE '%jwplayer%' OR archived = true)")
           end
           if videos.size > 1 && channel.channel_queue_items.present?
             videos = videos.where.not(id: channel.channel_queue_items.
