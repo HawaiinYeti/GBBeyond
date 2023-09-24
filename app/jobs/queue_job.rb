@@ -14,7 +14,7 @@ class QueueJob < ApplicationJob
           if !play_jw
             videos = videos.where.not("video_urls::text LIKE '%jwplayer%'")
           end
-          if videos.size > 1
+          if videos.size > 1 && channel.channel_queue_items.present?
             videos = videos.where.not(id: channel.channel_queue_items.
                                           order(start_time: :asc).last.video_id)
           end
