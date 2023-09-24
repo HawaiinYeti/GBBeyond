@@ -12,11 +12,12 @@ class QueueJob < ApplicationJob
                   where(premium: [false, play_premium].uniq).
                   where.not(length: [nil, 0])
           if !play_jw
-            videos = videos.where.not("video_urls ->> 'high' LIKE '%jwplayer%'"); nil
+            videos = videos.where.not("video_urls ->> 'high' LIKE '%jwplayer%'")
           end
-          video = videos.random.first
+          video = videos.random.pluck(:id).sample
           break if video.nil?
 
+          video = Video.find(video)
           channel.add_to_queue(video)
           update = true
         end
