@@ -209,7 +209,7 @@ GEM
       ast (~> 2.4.1)
     pg (1.5.3)
     public_suffix (5.0.1)
-    puma (6.2.2)
+    puma (6.3.1)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.6.2)
@@ -391,7 +391,7 @@ DEPENDENCIES
   json_logic
   momentjs-rails
   pg (~> 1.5)
-  puma (~> 6.1)
+  puma (~> 6.3)
   rails (~> 7.0.4)
   rails-settings-cached
   redis (~> 5.0)
