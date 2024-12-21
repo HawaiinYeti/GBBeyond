@@ -95,7 +95,7 @@ $(window).on('load', function() {
       return `${data.url}#t=${seconds_since_start}`
     }
 
-    player = videojs('video-player', {
+    var player = videojs('video-player', {
       autoplay: 'any',
       fluid: true,
       controls: true,
