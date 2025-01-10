@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     get 'lineup', to: 'xmltv#lineup'
     get 'lineup_status', to: 'xmltv#lineup_status'
     get 'channel/:id', to: 'xmltv#channel'
+    get 'epg', to: 'xmltv#epg'
   end
 end

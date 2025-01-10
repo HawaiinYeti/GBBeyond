@@ -55,6 +55,10 @@ class XmltvController < ApplicationController
     end
   end
 
+  def epg
+    render json: Channel.channel_listing
+  end
+
   private
 
   def build_xml
