@@ -14,7 +14,7 @@ class ChannelQueueItem < ApplicationRecord
   def broadcast_object
     {
       queue_item: self,
-      video: video,
+      video: video.as_json.merge(show: video.show.as_json),
       url: video&.get_url,
       skip_url: Rails.application.routes.url_helpers.
                 skip_queue_item_channel_path(channel.id, queue_item_id: id),

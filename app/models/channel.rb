@@ -54,7 +54,7 @@ class Channel < ApplicationRecord
   def broadcast_object
     {
       channel: self,
-      queue: channel_queue_items.order(start_time: :asc).map(&:broadcast_object)
+      queue: channel_queue_items.eager_load(video: :show).order(start_time: :asc).map(&:broadcast_object)
     }
   end
 
